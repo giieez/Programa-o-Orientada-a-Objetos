@@ -1,0 +1,97 @@
+using System;
+
+namespace Animais
+{
+  
+    public abstract class Animal
+    {
+        public string Nome { get; set; }
+        public int Idade { get; set; }
+        public string Som { get; set; }
+
+        public Animal(string nome, int idade, string som)
+        {
+            Nome = nome;
+            Idade = idade;
+            Som = som;
+        }
+
+        public virtual void EmitirSom()
+        {
+            Console.WriteLine($"{Nome} faz {Som}");
+        }
+    }
+
+   
+    public class Cachorro : Animal
+    {
+        public Cachorro(string nome, int idade) : base(nome, idade, "latido")
+        {
+        }
+
+        public void AbanarRabo()
+        {
+            Console.WriteLine($"{Nome} está abanando o rabo.");
+        }
+
+        public override void EmitirSom()
+        {
+            Console.WriteLine($"{Nome} está latindo: {Som}");
+        }
+    }
+
+   
+    public class Gato : Animal
+    {
+        public Gato(string nome, int idade) : base(nome, idade, "miado")
+        {
+        }
+
+        public void Ronronar()
+        {
+            Console.WriteLine($"{Nome} está ronronando.");
+        }
+
+        public override void EmitirSom()
+        {
+            Console.WriteLine($"{Nome} está miando: {Som}");
+        }
+    }
+
+   
+    public class Passaro : Animal
+    {
+        public Passaro(string nome, int idade) : base(nome, idade, "canto")
+        {
+        }
+
+        public void Voar()
+        {
+            Console.WriteLine($"{Nome} está voando.");
+        }
+
+        public override void EmitirSom()
+        {
+            Console.WriteLine($"{Nome} está cantando: {Som}");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Cachorro cachorro = new Cachorro("Rex", 5);
+            Gato gato = new Gato("Mimi", 3);
+            Passaro passaro = new Passaro("PiuPiu", 1);
+
+            cachorro.EmitirSom();
+            cachorro.AbanarRabo();
+
+            gato.EmitirSom();
+            gato.Ronronar();
+
+            passaro.EmitirSom();
+            passaro.Voar();
+        }
+    }
+}

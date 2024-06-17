@@ -1,0 +1,25 @@
+﻿
+
+public class Plyastation {
+
+    //atributos
+    public string Modelo { get; set; }
+    public string Cor { get; set; }
+    public string Ano { get; set; }
+
+    //construtor
+    this.Modelo = modelo;
+    this.Cor = cor;
+    this.Ano = ano;
+
+    //método
+    public string Jogar()
+    {
+        return "Ligar Playstation";
+    }
+
+    public string EncerrarJogo()
+    {
+        return "Desligar Playstation"
+        }
+}

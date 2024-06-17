@@ -1,0 +1,154 @@
+using System;
+
+namespace Banco
+{
+    public class ContaBancaria
+    {
+        private decimal saldo;
+
+        public ContaBancaria(decimal saldoInicial)
+        {
+            saldo = saldoInicial;
+        }
+
+        public void AdicionarFundo(decimal quantia)
+        {
+            if (quantia <= 0)
+            {
+                Console.WriteLine("A quantia para adicionar deve ser positiva.");
+            }
+            else
+            {
+                saldo += quantia;
+                Console.WriteLine($"Adição de {quantia:C} realizada com sucesso. Saldo atual: {saldo:C}");
+            }
+        }
+
+        public void RetirarFundo(decimal quantia)
+        {
+            if (quantia <= 0)
+            {
+                Console.WriteLine("A quantia para retirada deve ser positiva.");
+            }
+            else if (quantia > saldo)
+            {
+                Console.WriteLine("Saldo insuficiente para realizar a retirada.");
+            }
+            else
+            {
+                saldo -= quantia;
+                Console.WriteLine($"Retirada de {quantia:C} realizada com sucesso. Saldo atual: {saldo:C}");
+            }
+        }
+
+        public decimal ConsultarSaldo()
+        {
+            return saldo;
+        }
+    }
+
+    public class ContaPoupanca : ContaBancaria
+    {
+        private decimal rendimento;
+
+        public ContaPoupanca(decimal saldoInicial, decimal rendimento) : base(saldoInicial)
+        {
+            this.rendimento = rendimento;
+        }
+
+        public void CalcularRendimento()
+        {
+            decimal valorRendimento = ConsultarSaldo() * rendimento;
+            AdicionarFundo(valorRendimento);
+            Console.WriteLine($"Rendimento de {valorRendimento:C} aplicado. Saldo atual: {ConsultarSaldo():C}");
+        }
+    }
+
+    public class ContaCorrente : ContaBancaria
+    {
+        private decimal limiteCredito;
+
+        public ContaCorrente(decimal saldoInicial, decimal limiteCredito) : base(saldoInicial)
+        {
+            this.limiteCredito = limiteCredito;
+        }
+
+        public new void RetirarFundo(decimal quantia)
+        {
+            if (quantia <= 0)
+            {
+                Console.WriteLine("A quantia para retirada deve ser positiva.");
+            }
+            else if (quantia > (ConsultarSaldo() + limiteCredito))
+            {
+                Console.WriteLine("Saldo insuficiente, mesmo considerando o limite de crédito.");
+            }
+            else
+            {
+                decimal saldoAtual = ConsultarSaldo();
+                if (quantia > saldoAtual)
+                {
+                    decimal diferenca = quantia - saldoAtual;
+                    base.RetirarFundo(saldoAtual);
+                    limiteCredito -= diferenca;
+                    Console.WriteLine($"Limite de crédito usado: {diferenca:C}. Limite de crédito restante: {limiteCredito:C}");
+                }
+                else
+                {
+                    base.RetirarFundo(quantia);
+                }
+                Console.WriteLine($"Retirada de {quantia:C} realizada com sucesso. Saldo atual: {ConsultarSaldo():C}, Limite de crédito restante: {limiteCredito:C}");
+            }
+        }
+    }
+
+    public class ContaInvestimento : ContaBancaria
+    {
+        public ContaInvestimento(decimal saldoInicial) : base(saldoInicial)
+        {
+        }
+
+        public void AplicarInvestimento(decimal quantia)
+        {
+            if (quantia <= 0)
+            {
+                Console.WriteLine("A quantia para investimento deve ser positiva.");
+            }
+            else if (quantia > ConsultarSaldo())
+            {
+                Console.WriteLine("Saldo insuficiente para realizar o investimento.");
+            }
+            else
+            {
+                RetirarFundo(quantia);
+                Console.WriteLine($"Investimento de {quantia:C} realizado com sucesso. Saldo atual: {ConsultarSaldo():C}");
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ContaPoupanca contaPoupanca = new ContaPoupanca(1000m, 0.01m);
+            ContaCorrente contaCorrente = new ContaCorrente(500m, 200m);
+            ContaInvestimento contaInvestimento = new ContaInvestimento(1500m);
+
+            Console.WriteLine($"Saldo inicial Conta Poupança: {contaPoupanca.ConsultarSaldo():C}");
+            contaPoupanca.AdicionarFundo(200m);
+            contaPoupanca.CalcularRendimento();
+
+            Console.WriteLine($"Saldo inicial Conta Corrente: {contaCorrente.ConsultarSaldo():C}");
+            contaCorrente.AdicionarFundo(300m);
+            contaCorrente.RetirarFundo(1000m);
+
+            Console.WriteLine($"Saldo inicial Conta Investimento: {contaInvestimento.ConsultarSaldo():C}");
+            contaInvestimento.AdicionarFundo(500m);
+            contaInvestimento.AplicarInvestimento(1000m);
+
+            Console.WriteLine($"Saldo final Conta Poupança: {contaPoupanca.ConsultarSaldo():C}");
+            Console.WriteLine($"Saldo final Conta Corrente: {contaCorrente.ConsultarSaldo():C}");
+            Console.WriteLine($"Saldo final Conta Investimento: {contaInvestimento.ConsultarSaldo():C}");
+        }
+    }
+}
