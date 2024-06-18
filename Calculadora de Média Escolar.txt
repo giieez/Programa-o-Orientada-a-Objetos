@@ -1,0 +1,32 @@
+class NotasAlunos
+{
+    static void Main(string[] args)
+    {
+        decimal[] notas = new decimal[4];
+        decimal parcial = 0;
+        decimal media;
+
+        for (int i = 0; i < 4; i++)
+        {
+            Console.WriteLine($"Insira a nota da prova {i + 1}: ");
+            notas[i] = Convert.ToDecimal(Console.ReadLine());
+            parcial += notas[i];
+        }
+
+        media = parcial / 4;
+        Console.WriteLine($"Sua média é: {media}");
+
+        if (media >= 7)
+        {
+            Console.WriteLine("Parabéns você está aprovado. ");
+        }
+        else if (media >= 5 && media < 7)
+        {
+            Console.WriteLine("Ops, você está de recuperação. ");
+        }
+        else
+        {
+            Console.WriteLine("Você reprovou. ");
+        }
+    }
+}
