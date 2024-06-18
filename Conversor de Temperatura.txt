@@ -1,0 +1,37 @@
+using System;
+
+class ConversorDeTemperatura
+{
+    static void Main(string[] args)
+    {
+        double temperaturaCelsius = 0;
+        double temperaturaFahrenheit = 0;
+
+        Console.WriteLine("Escolha uma opção:");
+        Console.WriteLine("1. Converter Fahrenheit para Celsius");
+        Console.WriteLine("2. Converter Celsius para Fahrenheit");
+        Console.Write("Digite o número da sua escolha: ");
+        int escolha = int.Parse(Console.ReadLine());
+
+        switch (escolha)
+        {
+            case 1:
+                Console.WriteLine("Escreva a temperatura em Fahrenheit: ");
+                temperaturaFahrenheit = double.Parse(Console.ReadLine());
+                temperaturaCelsius = (double)5 / 9 * (temperaturaFahrenheit - 32);
+                Console.WriteLine("Temperatura convertida para Celsius é: " + temperaturaCelsius);
+                break;
+
+            case 2:
+                Console.WriteLine("Escreva a temperatura em Celsius: ");
+                temperaturaCelsius = double.Parse(Console.ReadLine());
+                temperaturaFahrenheit = (double)9 / 5 * temperaturaCelsius + 32;
+                Console.WriteLine("Temperatura convertida para Fahrenheit é: " + temperaturaFahrenheit);
+                break;
+
+            default:
+                Console.WriteLine("Opção inválida. Por favor, escolha 1 ou 2.");
+                break;
+        }
+    }
+}
